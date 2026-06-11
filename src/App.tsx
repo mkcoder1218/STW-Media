@@ -100,7 +100,7 @@ export default function App() {
   };
 
   return (
-    <div className="bg-dark-bg text-on-surface font-sans min-h-screen selection:bg-brand-blue selection:text-white">
+    <div className="bg-dark-bg text-on-surface font-sans min-h-screen overflow-x-hidden selection:bg-brand-blue selection:text-white">
       
       {/* Navigation Layer */}
       <Navigation 
@@ -111,7 +111,7 @@ export default function App() {
       />
 
       {/* Screen Views and Transition Engines */}
-      <main className="w-full">
+      <main className="w-full overflow-x-hidden">
         <AnimatePresence mode="wait">
           {screen === 'home' ? (
             <motion.div

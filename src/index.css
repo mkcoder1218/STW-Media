@@ -16,11 +16,17 @@
   --color-surface-container-lowest: #0c0f0f;
 }
 
+html,
+body,
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   background-color: #121414;
   color: #e2e2e2;
   font-family: var(--font-sans);
-  overflow-x: hidden;
 }
 
 html {

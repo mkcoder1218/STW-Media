@@ -43,7 +43,7 @@ export default function Navigation({ currentScreen, setScreen, scrollToSection, 
     <>
       {/* Desktop & Tablet Header */}
       <header className="fixed top-0 left-0 w-full z-50 bg-glass-bg backdrop-blur-md border-b border-glass-border">
-        <div className="max-w-[1280px] mx-auto px-6 py-2 flex justify-between items-center">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-1.5 md:py-2 flex justify-between items-center">
           
           {/* Logo */}
           <div 
@@ -53,7 +53,7 @@ export default function Navigation({ currentScreen, setScreen, scrollToSection, 
             <img 
               src={logoUrl} 
               alt="STW Media Logo" 
-              className="h-20 md:h-24 w-auto object-contain"
+              className="h-14 sm:h-16 md:h-20 lg:h-24 w-auto object-contain"
             />
           </div>
 
@@ -98,10 +98,10 @@ export default function Navigation({ currentScreen, setScreen, scrollToSection, 
           </nav>
 
           {/* Contact Button & Mobile Toggle */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             <button
               onClick={() => setScreen('contact')}
-              className="bg-brand-blue text-white px-6 py-2 rounded-full text-sm font-semibold tracking-wide hover:bg-vibrant-blue transition-all active:scale-95 cursor-pointer shadow-lg shadow-brand-blue/20"
+              className="hidden sm:inline-flex bg-brand-blue text-white px-5 md:px-6 py-2 rounded-full text-sm font-semibold tracking-wide hover:bg-vibrant-blue transition-all active:scale-95 cursor-pointer shadow-lg shadow-brand-blue/20"
             >
               Book a Call
             </button>
@@ -119,11 +119,11 @@ export default function Navigation({ currentScreen, setScreen, scrollToSection, 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-[60] bg-dark-bg/98 backdrop-blur-xl flex flex-col p-6 animate-fade-in">
-          <div className="flex justify-between items-center mb-12">
+          <div className="flex justify-between items-center mb-10">
             <img 
               src={logoUrl} 
               alt="STW Media Logo" 
-              className="h-24 w-auto object-contain"
+              className="h-16 w-auto object-contain"
             />
             <button
               onClick={() => setMobileMenuOpen(false)}

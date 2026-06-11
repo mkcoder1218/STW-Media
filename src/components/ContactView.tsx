@@ -167,26 +167,26 @@ export default function ContactView({ setScreen }: ContactViewProps) {
   // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
-    <div className="relative text-on-surface bg-dark-bg min-h-screen pt-32 pb-24 px-6 overflow-hidden">
+    <div className="relative text-on-surface bg-dark-bg min-h-screen pt-24 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6 overflow-hidden">
 
       {/* Background glow ambient lights */}
-      <div className="absolute top-10 left-[-150px] w-[500px] h-[500px] bg-brand-blue rounded-full glow-accent pointer-events-none" />
-      <div className="absolute bottom-10 right-[-150px] w-[500px] h-[500px] bg-vibrant-blue rounded-full glow-accent pointer-events-none" />
+      <div className="absolute top-10 left-[-90px] w-[260px] h-[260px] sm:left-[-150px] sm:w-[500px] sm:h-[500px] bg-brand-blue rounded-full glow-accent pointer-events-none" />
+      <div className="absolute bottom-10 right-[-90px] w-[260px] h-[260px] sm:right-[-150px] sm:w-[500px] sm:h-[500px] bg-vibrant-blue rounded-full glow-accent pointer-events-none" />
 
       <div className="max-w-[760px] mx-auto relative z-10">
 
         {/* Back button */}
         <button
           onClick={() => setScreen('home')}
-          className="flex items-center gap-2 text-on-surface-variant hover:text-white mb-8 group transition-colors cursor-pointer"
+          className="flex items-center gap-2 text-on-surface-variant hover:text-white mb-6 sm:mb-8 group transition-colors cursor-pointer"
         >
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
           <span>Back to Home</span>
         </button>
 
         {/* Heading */}
-        <div className="text-left mb-12">
-          <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-white mb-4">
+        <div className="text-left mb-8 sm:mb-12">
+          <h1 className="font-display text-3xl sm:text-5xl font-extrabold text-white mb-4 leading-tight">
             Let's scale your channel.
           </h1>
           <p className="text-on-surface-variant font-medium text-base sm:text-lg max-w-xl leading-relaxed">
@@ -203,7 +203,7 @@ export default function ContactView({ setScreen }: ContactViewProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="glass-card p-10 md:p-12 rounded-3xl text-center border-vibrant-blue shadow-2xl relative overflow-hidden"
+              className="glass-card p-6 sm:p-10 md:p-12 rounded-2xl sm:rounded-3xl text-center border-vibrant-blue shadow-2xl relative overflow-hidden"
             >
               <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-brand-blue to-vibrant-blue" />
 
@@ -240,7 +240,7 @@ export default function ContactView({ setScreen }: ContactViewProps) {
               key="contact-form"
               onSubmit={handleSubmit}
               noValidate
-              className="glass-card p-8 sm:p-10 rounded-3xl border border-glass-border/80 flex flex-col gap-6 text-left"
+              className="glass-card p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl border border-glass-border/80 flex flex-col gap-5 sm:gap-6 text-left"
             >
 
               {/* Error banner */}
@@ -255,7 +255,7 @@ export default function ContactView({ setScreen }: ContactViewProps) {
               )}
 
               {/* Row 1: Name + Email */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 <div className="flex flex-col gap-2">
                   <label htmlFor="fullName" className="text-xs uppercase font-bold tracking-wider text-on-surface-variant">
                     Full Name *
@@ -294,7 +294,7 @@ export default function ContactView({ setScreen }: ContactViewProps) {
               </div>
 
               {/* Row 2: Brand + YouTube */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 <div className="flex flex-col gap-2">
                   <label htmlFor="brandName" className="text-xs uppercase font-bold tracking-wider text-on-surface-variant">
                     Brand / Channel Name
@@ -336,7 +336,7 @@ export default function ContactView({ setScreen }: ContactViewProps) {
               </div>
 
               {/* Row 3: Views + Budget dropdowns */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 <div className="flex flex-col gap-2">
                   <label htmlFor="monthlyViews" className="text-xs uppercase font-bold tracking-wider text-on-surface-variant">
                     Current Monthly Views
@@ -396,7 +396,7 @@ export default function ContactView({ setScreen }: ContactViewProps) {
                         type="button"
                         disabled={isSubmitting}
                         onClick={() => handleCheckboxChange(service)}
-                        className={`p-4 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer disabled:opacity-60 ${
+                      className={`p-3.5 sm:p-4 rounded-xl border text-left flex items-center justify-between gap-3 transition-all cursor-pointer disabled:opacity-60 ${
                           isChecked
                             ? 'border-vibrant-blue bg-vibrant-blue/10 text-white'
                             : 'border-glass-border bg-[#161818] text-on-surface-variant hover:border-vibrant-blue/50'
@@ -463,10 +463,10 @@ export default function ContactView({ setScreen }: ContactViewProps) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-16 text-left"
+                className="mt-12 sm:mt-16 text-left"
           >
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="font-display font-bold text-lg text-white flex items-center gap-2">
+            <div className="flex flex-col min-[390px]:flex-row min-[390px]:justify-between min-[390px]:items-center gap-3 mb-6">
+              <h3 className="font-display font-bold text-base sm:text-lg text-white flex items-center gap-2">
                 <Sparkles size={18} className="text-vibrant-blue" />
                 Submitted Queries Log ({submissions.length})
               </h3>
@@ -482,7 +482,7 @@ export default function ContactView({ setScreen }: ContactViewProps) {
               {submissions.map((sub, idx) => (
                 <div
                   key={idx}
-                  className="glass-card p-6 rounded-2xl border-l-[3px] border-l-brand-blue flex flex-col gap-4"
+                  className="glass-card p-5 sm:p-6 rounded-2xl border-l-[3px] border-l-brand-blue flex flex-col gap-4"
                 >
                   <div className="flex flex-wrap justify-between items-start gap-2">
                     <div>
@@ -505,7 +505,7 @@ export default function ContactView({ setScreen }: ContactViewProps) {
                     </div>
                   )}
 
-                  <div className="grid grid-cols-2 gap-4 text-xs bg-dark-bg/60 p-3 rounded-lg border border-glass-border/30">
+                  <div className="grid grid-cols-1 min-[390px]:grid-cols-2 gap-3 sm:gap-4 text-xs bg-dark-bg/60 p-3 rounded-lg border border-glass-border/30">
                     <div>
                       <span className="text-on-surface-variant/70 block">Monthly views:</span>
                       <strong className="text-white">{sub.monthlyViews}</strong>

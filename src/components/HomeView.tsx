@@ -123,15 +123,15 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
   ];
 
   return (
-    <div className="relative text-on-surface bg-dark-bg min-h-screen">
+    <div className="relative text-on-surface bg-dark-bg min-h-screen overflow-hidden">
       
       {/* Background glow ambient lights */}
-      <div className="absolute top-20 right-[-100px] w-[500px] h-[500px] bg-brand-blue rounded-full glow-accent pointer-events-none" />
-      <div className="absolute top-[1200px] left-[-200px] w-[600px] h-[600px] bg-vibrant-blue rounded-full glow-accent pointer-events-none" />
-      <div className="absolute bottom-[400px] right-[-100px] w-[500px] h-[500px] bg-brand-blue rounded-full glow-accent pointer-events-none" />
+      <div className="absolute top-20 right-[-80px] w-[260px] h-[260px] sm:right-[-100px] sm:w-[500px] sm:h-[500px] bg-brand-blue rounded-full glow-accent pointer-events-none" />
+      <div className="absolute top-[1200px] left-[-120px] w-[280px] h-[280px] sm:left-[-200px] sm:w-[600px] sm:h-[600px] bg-vibrant-blue rounded-full glow-accent pointer-events-none" />
+      <div className="absolute bottom-[400px] right-[-80px] w-[260px] h-[260px] sm:right-[-100px] sm:w-[500px] sm:h-[500px] bg-brand-blue rounded-full glow-accent pointer-events-none" />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-28 md:pb-40 lg:pt-40 lg:pb-56 px-6 overflow-hidden">
+      <section className="relative pt-24 sm:pt-28 pb-20 sm:pb-28 md:pb-40 lg:pt-40 lg:pb-56 px-4 sm:px-6 overflow-hidden">
         {/* Slanted premium background shape */}
         <motion.div 
           className="absolute inset-0 bg-gradient-to-b from-[#121414] via-[#1a1c1c]/40 to-[#1e2020]/80 pointer-events-none"
@@ -161,26 +161,26 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
             transition={{ duration: 0.8 }}
             className="lg:col-span-7 flex flex-col items-start text-left"
           >
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[68px] leading-none tracking-tight font-extrabold text-white mb-6">
+            <h1 className="font-display text-[2.35rem] min-[390px]:text-4xl sm:text-5xl md:text-6xl lg:text-[68px] leading-[0.98] tracking-tight font-extrabold text-white mb-5 sm:mb-6">
               We turn YouTube <br className="hidden sm:inline" />
               channels into <br />
               <span className="text-vibrant-blue relative z-10">growth engines.</span>
             </h1>
             
-            <p className="font-sans text-base sm:text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed">
+            <p className="font-sans text-base sm:text-lg md:text-xl text-on-surface-variant max-w-xl mb-8 sm:mb-10 leading-relaxed">
               STW Media helps creators and brands plan, manage, optimize, and scale their YouTube content with data-driven strategies.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               <button
                 onClick={() => setScreen('contact')}
-                className="bg-brand-blue hover:bg-vibrant-blue text-white font-bold py-4 px-8 rounded-full text-sm uppercase tracking-wider transition-all hover:scale-105 active:scale-95 shadow-lg shadow-brand-blue/30 cursor-pointer text-center"
+                className="bg-brand-blue hover:bg-vibrant-blue text-white font-bold py-3.5 sm:py-4 px-7 sm:px-8 rounded-full text-sm uppercase tracking-wider transition-all hover:scale-105 active:scale-95 shadow-lg shadow-brand-blue/30 cursor-pointer text-center"
               >
                 Contact
               </button>
               <button
                 onClick={() => scrollToSection('work-section')}
-                className="border border-glass-border bg-glass-bg text-on-surface hover:bg-white/10 font-bold py-4 px-8 rounded-full text-sm uppercase tracking-wider transition-all hover:scale-105 active:scale-95 cursor-pointer text-center"
+                className="border border-glass-border bg-glass-bg text-on-surface hover:bg-white/10 font-bold py-3.5 sm:py-4 px-7 sm:px-8 rounded-full text-sm uppercase tracking-wider transition-all hover:scale-105 active:scale-95 cursor-pointer text-center"
               >
                 See Our Work
               </button>
@@ -188,7 +188,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
 
             {/* Mobile / responsive visual indicator below CTAs inside Hero */}
             <div className="mt-10 lg:hidden w-full">
-              <div className="glass-card p-6 rounded-2xl border-l-[4px] border-l-vibrant-blue">
+              <div className="glass-card p-5 rounded-2xl border-l-[4px] border-l-vibrant-blue">
                 <div className="text-vibrant-blue font-display text-3xl font-extrabold tracking-tight">+240%</div>
                 <div className="text-xs text-on-surface-variant font-semibold tracking-wider uppercase mt-1">
                   SUBSCRIBER GROWTH RECORDED
@@ -219,15 +219,15 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
       </section>
 
       {/* Platforms Section */}
-      <section className="py-16 sm:py-24 bg-transparent">
-        <div className="max-w-[1280px] mx-auto px-6 mb-6 text-center">
+      <section className="py-12 sm:py-24 bg-transparent">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 mb-6 text-center">
           <h3 className="text-[11px] sm:text-xs font-semibold text-on-surface-variant/80 uppercase tracking-[0.3em]">
             Built for the platforms that shape attention
           </h3>
         </div>
         
         {/* Centered static platforms row */}
-        <div className="max-w-[1280px] mx-auto px-6">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
           <div className="flex flex-wrap justify-center items-center gap-x-6 sm:gap-x-10 gap-y-4 py-2 text-center">
             {platforms.map((platform, idx) => (
               <span 
@@ -242,7 +242,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
       </section>
 
       {/* About (Precision-led growth) */}
-      <section id="about-section" className="py-24 lg:py-36 px-6 bg-black relative overflow-hidden shadow-[inset_0_1px_0_rgba(255,255,255,0.05),_inset_0_-1px_0_rgba(255,255,255,0.05)]">
+      <section id="about-section" className="py-16 sm:py-24 lg:py-36 px-4 sm:px-6 bg-black relative overflow-hidden shadow-[inset_0_1px_0_rgba(255,255,255,0.05),_inset_0_-1px_0_rgba(255,255,255,0.05)]">
         <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           
           <motion.div 
@@ -252,7 +252,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
             transition={{ duration: 0.6 }}
             className="lg:col-span-7 flex flex-col text-left"
           >
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl leading-tight font-extrabold text-white mb-8">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl leading-tight font-extrabold text-white mb-6 sm:mb-8">
               Precision-led growth <br />
               for high-impact creators.
             </h2>
@@ -275,7 +275,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
                   viewport={{ once: false, margin: "-100px" }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   whileHover={{ scale: 1.01 }}
-                  className="bg-[#121415] border border-[#222425]/70 p-6 sm:p-7 rounded-2xl flex justify-between items-center transition-all shadow-[0_15px_30px_rgba(0,0,0,0.5)]"
+                  className="bg-[#121415] border border-[#222425]/70 p-5 sm:p-7 rounded-2xl flex justify-between items-center gap-4 transition-all shadow-[0_15px_30px_rgba(0,0,0,0.5)]"
                 >
                   <div>
                     <div className="text-vibrant-blue font-display text-3xl sm:text-4xl font-extrabold tracking-tight">
@@ -321,13 +321,13 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
       </section>
 
       {/* Services Section */}
-      <section id="services-section" className="py-24 lg:py-36 px-6 bg-surface-container-low/40">
+      <section id="services-section" className="py-16 sm:py-24 lg:py-36 px-4 sm:px-6 bg-surface-container-low/40">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="max-w-[1280px] mx-auto mb-16 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6"
+          className="max-w-[1280px] mx-auto mb-10 sm:mb-16 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6"
         >
           <div>
             <span className="text-vibrant-blue text-xs uppercase font-bold tracking-[0.25em] mb-3 block">
@@ -370,12 +370,12 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
 
               {/* Inner container with matching inner clip-path to act as border padding */}
               <div 
-                className="relative bg-surface-container-low/95 group-hover:bg-[#121415]/95 transition-colors duration-300 p-8 md:p-10 lg:p-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+                className="relative bg-surface-container-low/95 group-hover:bg-[#121415]/95 transition-colors duration-300 p-5 sm:p-8 md:p-10 lg:p-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-5 sm:gap-6"
                 style={{
                   clipPath: 'polygon(0.5px 0.5px, calc(100% - 23.5px) 0.5px, calc(100% - 0.5px) 23.5px, calc(100% - 0.5px) calc(100% - 0.5px), 23.5px calc(100% - 0.5px), 0.5px calc(100% - 23.5px))'
                 }}
               >
-                <div className="flex gap-6 sm:gap-8 items-center w-full md:w-auto">
+                <div className="flex gap-4 sm:gap-8 items-center w-full md:w-auto">
                   <span className="text-vibrant-blue font-display font-extrabold text-2xl sm:text-3xl lg:text-4xl">
                     {service.num}
                   </span>
@@ -398,13 +398,13 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
       </section>
 
       {/* The STW Process */}
-      <section className="py-24 lg:py-36 px-6 bg-dark-bg">
+      <section className="py-16 sm:py-24 lg:py-36 px-4 sm:px-6 bg-dark-bg">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="max-w-[1280px] mx-auto text-center mb-20"
+          className="max-w-[1280px] mx-auto text-center mb-12 sm:mb-20"
         >
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-6">
             The STW Process
@@ -436,11 +436,11 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: false, margin: "-80px" }}
                     transition={{ duration: 0.6, type: "spring", stiffness: 80 }}
-                    className="w-full md:w-1/2 pl-12 md:pl-0"
+                    className="w-full md:w-1/2 pl-10 sm:pl-12 md:pl-0"
                   >
                     <motion.div 
                       whileHover={{ scale: 1.02 }}
-                      className={`glass-card p-8 rounded-2xl border transition-all text-left group cursor-pointer ${
+                      className={`glass-card p-5 sm:p-8 rounded-2xl border transition-all text-left group cursor-pointer ${
                         !isEven ? 'md:text-right' : 'md:text-left'
                       }`}
                     >
@@ -472,13 +472,13 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
       </section>
 
       {/* Case Studies Section */}
-      <section id="work-section" className="py-24 lg:py-36 px-6 bg-surface-container-low/40">
+      <section id="work-section" className="py-16 sm:py-24 lg:py-36 px-4 sm:px-6 bg-surface-container-low/40">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="max-w-[1280px] mx-auto flex justify-between items-center mb-16"
+          className="max-w-[1280px] mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10 sm:mb-16"
         >
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white">
             Case Studies
@@ -502,7 +502,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
               viewport={{ once: false, margin: "-100px" }}
               transition={{ duration: 0.7, delay: idx * 0.15 }}
               whileHover={{ y: -6, scale: 1.01 }}
-              className="group glass-card rounded-3xl overflow-hidden min-h-[480px] sm:min-h-[520px] relative transition-all duration-500 cursor-pointer"
+              className="group glass-card rounded-2xl sm:rounded-3xl overflow-hidden min-h-[380px] sm:min-h-[520px] relative transition-all duration-500 cursor-pointer"
             >
               {/* Background cover image hotlinked exactly as provided */}
               <img 
@@ -519,7 +519,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
               <div className="absolute top-0 right-0 w-36 h-36 bg-vibrant-blue/10 blur-2xl rounded-full" />
 
               {/* Text content absolute position block */}
-              <div className="absolute inset-0 p-8 sm:p-10 flex flex-col justify-end text-left">
+              <div className="absolute inset-0 p-5 sm:p-10 flex flex-col justify-end text-left">
                 
                 <div className="mb-4">
                   <span className="bg-vibrant-blue/90 text-white text-[10px] sm:text-xs uppercase font-extrabold px-3 py-1.5 rounded tracking-wider inline-block shadow-sm">
@@ -532,7 +532,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
                 </h3>
                 
                 {/* Visual stats panel row */}
-                <div className="flex gap-10 border-t border-glass-border/60 pt-6 mb-6">
+                <div className="flex flex-wrap gap-6 sm:gap-10 border-t border-glass-border/60 pt-5 sm:pt-6 mb-5 sm:mb-6">
                   <div>
                     <div className="text-vibrant-blue font-display text-xl sm:text-2xl font-extrabold tracking-tight">
                       {cs.statChange}
@@ -563,7 +563,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
       </section>
 
       {/* Trusted ambitious creators logotypes list */}
-      <section id="clients-section" className="py-24 px-6 bg-dark-bg">
+      <section id="clients-section" className="py-16 sm:py-24 px-4 sm:px-6 bg-dark-bg">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -593,16 +593,16 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
       </section>
 
       {/* Final Call to Action Block */}
-      <section className="py-24 px-6 relative overflow-hidden bg-[#0c0f0f]/50 border-t border-glass-border">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden bg-[#0c0f0f]/50 border-t border-glass-border">
         {/* Glow ball */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-vibrant-blue rounded-full glow-accent pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[500px] sm:h-[500px] bg-vibrant-blue rounded-full glow-accent pointer-events-none" />
  
         <motion.div 
           initial={{ opacity: 0, scale: 0.95, y: 30 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
           viewport={{ once: false, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="relative z-10 max-w-4xl mx-auto text-center py-12"
+          className="relative z-10 max-w-4xl mx-auto text-center py-8 sm:py-12"
         >
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-10 leading-tight">
             Ready to grow your channel <br />
@@ -611,7 +611,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
           
           <button
             onClick={() => setScreen('contact')}
-            className="bg-brand-blue hover:bg-vibrant-blue text-white font-bold py-5 px-12 rounded-full text-base sm:text-lg transition-all hover:scale-105 active:scale-95 shadow-xl shadow-brand-blue/30 cursor-pointer"
+            className="bg-brand-blue hover:bg-vibrant-blue text-white font-bold py-4 sm:py-5 px-8 sm:px-12 rounded-full text-base sm:text-lg transition-all hover:scale-105 active:scale-95 shadow-xl shadow-brand-blue/30 cursor-pointer"
           >
             Contact STW Media
           </button>
@@ -619,7 +619,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
       </section>
 
       {/* Footer component */}
-      <footer className="w-full px-6 py-16 sm:py-24 border-t border-glass-border bg-surface-container-lowest">
+      <footer className="w-full px-4 sm:px-6 py-12 sm:py-24 border-t border-glass-border bg-surface-container-lowest">
         <div className="max-w-[1280px] mx-auto flex flex-col lg:flex-row justify-between items-start gap-12">
           
           <div className="flex flex-col items-start text-left max-w-md">
@@ -627,7 +627,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
               <img 
                 src={logoUrl} 
                 alt="STW Media Logo" 
-                className="h-28 w-auto object-contain"
+                className="h-20 sm:h-28 w-auto object-contain"
               />
             </div>
             <p className="text-sm text-on-surface-variant leading-relaxed mb-6">
@@ -650,7 +650,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
           </div>
 
           {/* Links structure */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-x-12 sm:gap-x-20 gap-y-10">
+          <div className="grid grid-cols-1 min-[390px]:grid-cols-2 md:grid-cols-3 gap-x-10 sm:gap-x-20 gap-y-10">
             <div className="flex flex-col gap-4 text-left">
               <h5 className="text-xs font-bold text-vibrant-blue uppercase tracking-[0.2em]">Agency</h5>
               <button onClick={() => handleNavClick('about-section')} className="text-sm text-on-surface-variant hover:text-white transition-colors cursor-pointer text-left">About</button>
