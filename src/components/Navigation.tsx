@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { ScreenType } from '../types';
+import logoUrl from '../../assets/stw-media-logo.png';
 
 interface NavigationProps {
   currentScreen: ScreenType;
@@ -38,13 +39,11 @@ export default function Navigation({ currentScreen, setScreen, scrollToSection, 
     }
   };
 
-  const logoUrl = 'https://lh3.googleusercontent.com/aida-public/AB6AXuAdrwm6gV0DQxsydgw_hrqEXLC2UjUa3EqeYgGoFglBLHz9MtqgUaYH6_aIJsVeqrtHadkbVUMITekHBy72EppeUpU07N0pRdFd8WXCrv3_vq5WNOblpAD48RFim-OzZAmlDXAHE4sP3cTs4mT61PpcZj8dlPoZH-VyiQfBpOqGXnIjgE0uHRunSlSdThKQWYl13tqLE-bcGunnP_DmKxB0czFD8EZzykAuESKcv0ZG5Kkn73qfOCpc2FGMN0HSrdqFXyi1Sn0C05U';
-
   return (
     <>
       {/* Desktop & Tablet Header */}
       <header className="fixed top-0 left-0 w-full z-50 bg-glass-bg backdrop-blur-md border-b border-glass-border">
-        <div className="max-w-[1280px] mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="max-w-[1280px] mx-auto px-6 py-2 flex justify-between items-center">
           
           {/* Logo */}
           <div 
@@ -54,8 +53,7 @@ export default function Navigation({ currentScreen, setScreen, scrollToSection, 
             <img 
               src={logoUrl} 
               alt="STW Media Logo" 
-              className="h-10 md:h-12 w-auto object-contain"
-              referrerPolicy="no-referrer"
+              className="h-20 md:h-24 w-auto object-contain"
             />
           </div>
 
@@ -125,8 +123,7 @@ export default function Navigation({ currentScreen, setScreen, scrollToSection, 
             <img 
               src={logoUrl} 
               alt="STW Media Logo" 
-              className="h-10 w-auto object-contain"
-              referrerPolicy="no-referrer"
+              className="h-24 w-auto object-contain"
             />
             <button
               onClick={() => setMobileMenuOpen(false)}

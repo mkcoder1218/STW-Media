@@ -23,6 +23,7 @@ import {
   Award
 } from 'lucide-react';
 import { ScreenType, ChannelStat, ServiceItem, ProcessStep, CaseStudy } from '../types';
+import logoUrl from '../../assets/stw-media-logo.png';
 
 interface HomeViewProps {
   setScreen: (screen: ScreenType) => void;
@@ -624,10 +625,9 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
           <div className="flex flex-col items-start text-left max-w-md">
             <div className="mb-6">
               <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdrwm6gV0DQxsydgw_hrqEXLC2UjUa3EqeYgGoFglBLHz9MtqgUaYH6_aIJsVeqrtHadkbVUMITekHBy72EppeUpU07N0pRdFd8WXCrv3_vq5WNOblpAD48RFim-OzZAmlDXAHE4sP3cTs4mT61PpcZj8dlPoZH-VyiQfBpOqGXnIjgE0uHRunSlSdThKQWYl13tqLE-bcGunnP_DmKxB0czFD8EZzykAuESKcv0ZG5Kkn73qfOCpc2FGMN0HSrdqFXyi1Sn0C05U" 
+                src={logoUrl} 
                 alt="STW Media Logo" 
-                className="h-10 w-auto object-contain"
-                referrerPolicy="no-referrer"
+                className="h-28 w-auto object-contain"
               />
             </div>
             <p className="text-sm text-on-surface-variant leading-relaxed mb-6">
