@@ -46,6 +46,20 @@ function truncate(str, max) {
   return str.slice(0, max);
 }
 
+function readEnv(name) {
+  return String(process.env[name] ?? '').trim();
+}
+
+function summarizeSmtpError(err) {
+  return {
+    name: err?.name,
+    code: err?.code,
+    command: err?.command,
+    responseCode: err?.responseCode,
+    message: err?.message,
+  };
+}
+
 // ─── Email builders ───────────────────────────────────────────────────────────
 
 function buildHtmlBody({ name, email, brandName, youtubeUrl, monthlyViews, monthlyBudget, services, message }) {
@@ -252,18 +266,23 @@ export default async function handler(req, res) {
   }
 
   // ── Read SMTP config from environment (never from the request) ──
-  const {
-    SMTP_HOST,
-    SMTP_PORT,
-    SMTP_USER,
-    SMTP_PASS,
-    SMTP_FROM,
-    SMTP_TO,
-  } = process.env;
+  const SMTP_HOST = readEnv('SMTP_HOST');
+  const SMTP_PORT = readEnv('SMTP_PORT');
+  const SMTP_USER = readEnv('SMTP_USER');
+  const SMTP_PASS = readEnv('SMTP_PASS');
+  const SMTP_FROM = readEnv('SMTP_FROM');
+  const SMTP_TO = readEnv('SMTP_TO');
 
   if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !SMTP_FROM || !SMTP_TO) {
     // Log detail server-side, return generic message to client
-    console.error('[send-email] Missing one or more required SMTP environment variables.');
+    console.error('[send-email] Missing one or more required SMTP environment variables.', {
+      SMTP_HOST: Boolean(SMTP_HOST),
+      SMTP_PORT: Boolean(SMTP_PORT),
+      SMTP_USER: Boolean(SMTP_USER),
+      SMTP_PASS: Boolean(SMTP_PASS),
+      SMTP_FROM: Boolean(SMTP_FROM),
+      SMTP_TO: Boolean(SMTP_TO),
+    });
     return res.status(500).json({
       success: false,
       error: 'Email service is not configured. Please contact us directly.',
@@ -271,6 +290,14 @@ export default async function handler(req, res) {
   }
 
   const port = parseInt(SMTP_PORT, 10);
+  if (!Number.isInteger(port)) {
+    console.error('[send-email] Invalid SMTP_PORT value.');
+    return res.status(500).json({
+      success: false,
+      error: 'Email service is not configured. Please contact us directly.',
+    });
+  }
+
   const secure = port === 465; // STARTTLS for 587, SSL/TLS for 465
 
   // ── Create transporter ──
@@ -278,9 +305,16 @@ export default async function handler(req, res) {
     host: SMTP_HOST,
     port,
     secure,
+    requireTLS: port === 587,
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 20000,
     auth: {
       user: SMTP_USER,
       pass: SMTP_PASS,
+    },
+    tls: {
+      servername: SMTP_HOST,
     },
   });
 
@@ -289,9 +323,15 @@ export default async function handler(req, res) {
   const subjectLine = `New Consultation Inquiry — ${name}${brandName ? ` (${brandName})` : ''}`;
 
   const mailOptions = {
-    from: `"STW Media Contact Form" <${SMTP_FROM}>`,
+    from: {
+      name: 'STW Media Contact Form',
+      address: SMTP_FROM,
+    },
     to: SMTP_TO,
-    replyTo: `"${escapeHtml(name)}" <${email}>`,
+    replyTo: {
+      name,
+      address: email,
+    },
     subject: subjectLine,
     text: buildPlainText(payload),
     html: buildHtmlBody(payload),
@@ -299,12 +339,13 @@ export default async function handler(req, res) {
 
   // ── Send ──
   try {
+    await transporter.verify();
     const info = await transporter.sendMail(mailOptions);
     console.log('[send-email] Message sent:', info.messageId);
     return res.status(200).json({ success: true, message: 'Inquiry sent successfully.' });
   } catch (err) {
     // Log the real error server-side only
-    console.error('[send-email] SMTP send failed:', err);
+    console.error('[send-email] SMTP send failed:', summarizeSmtpError(err));
     return res.status(500).json({
       success: false,
       error: 'Failed to send your inquiry. Please try again or contact us directly.',
