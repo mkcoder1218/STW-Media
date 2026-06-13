@@ -24,6 +24,8 @@ import {
 } from 'lucide-react';
 import { ScreenType, ChannelStat, ServiceItem, ProcessStep, CaseStudy } from '../types';
 import logoUrl from '../../assets/stw-media-logo.png';
+import heroImageUrl from '../../assets/hero-youtube-analytics.jpg';
+import productionImageUrl from '../../assets/production-workstation.jpg';
 
 interface HomeViewProps {
   setScreen: (screen: ScreenType) => void;
@@ -48,19 +50,19 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
       id: 'srv-1', 
       num: '01', 
       title: 'YouTube Strategy', 
-      description: 'Comprehensive audits, competitor analysis, and multi-quarter growth roadmaps built on data, not guesses.' 
+      description: 'Comprehensive audits, competitor analysis, and quarterly growth roadmaps built on data, not guesses.' 
     },
     { 
       id: 'srv-2', 
       num: '02', 
       title: 'Content Management', 
-      description: 'Handling the day-to-day chaos of production pipelines, editor coordination, and asset tracking.' 
+      description: 'Handling the daily chaos of production pipelines, editor coordination, and asset tracking.' 
     },
     { 
       id: 'srv-3', 
       num: '03', 
       title: 'Publishing & Optimization', 
-      description: 'High-CTR thumbnail theory, semantic SEO descriptions, and rigorous A/B testing for every upload.' 
+      description: 'Thumbnail strategy, semantic SEO descriptions, and rigorous A/B testing for every upload.' 
     },
   ];
 
@@ -70,14 +72,14 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
       num: '01',
       phaseName: '01 Strategy',
       title: 'Foundation Building',
-      description: 'We deep-dive into your existing analytics to find the "magic" that makes your audience stick, then build a growth engine around it.'
+      description: 'We dig into your existing analytics to find the "magic" that makes your audience stick, then build a growth engine around it.'
     },
     {
       id: 'step-2',
       num: '02',
       phaseName: '02 Content Planning',
       title: 'Predictive Programming',
-      description: 'Transforming ideas into high-retention formats. We plan your content calendar 3 months in advance with data-backed topics.'
+      description: 'Transforming ideas into formats built for retention. We plan your content calendar 3 months in advance with topics backed by data.'
     },
     {
       id: 'step-3',
@@ -91,7 +93,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
       num: '04',
       phaseName: '04 Publishing & Growth',
       title: 'Algorithmic Mastery',
-      description: 'Every video is published with maximum SEO and click-through optimization. We monitor real-time performance and pivot instantly.'
+      description: 'Every video is published with maximum SEO and click optimization. We monitor live performance and pivot instantly.'
     }
   ];
 
@@ -168,7 +170,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
             </h1>
             
             <p className="font-sans text-base sm:text-lg md:text-xl text-on-surface-variant max-w-xl mb-8 sm:mb-10 leading-relaxed">
-              STW Media helps creators and brands plan, manage, optimize, and scale their YouTube content with data-driven strategies.
+              STW Media helps creators and brands plan, manage, optimize, and scale their YouTube content with strategies built on data.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
@@ -197,7 +199,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
             </div>
           </motion.div>
 
-          {/* Mockup visual on the right (col-span-5) - clean layout without nested padding or filled background */}
+          {/* Mockup visual on the right */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -207,10 +209,9 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
           >
             <div className="relative rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.7)] hover:scale-[1.01] transition-all duration-500">
               <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyHDJUeT8ztaSxOwwrSPsjmCmGYSlY9Hc-SB2wkaL0_wp9QbZ1W9zVVDhniiHNkeKSrpvUPmK-dDPTHymfz3OS_keZGKS0t_X8w0Ia6GxkdorFTaunGBSBmNYxPLZWtRah0ECuzzW44auAk_d1feuCmCEi49Vn1u_dj68u6fCNoc1KHUVgfAeIk7sUqOfzy00cryv7MbENdix4MzfYjIURE1zngh0uNeEdgf9u-p28ClEr0LYxKEaMiNdSowS3UjxoOBTlv0lT6qw" 
-                alt="YouTube Analytics Dashboard Workspace Mockup" 
+                src={heroImageUrl} 
+                alt="YouTube analytics dashboard on a laptop" 
                 className="w-full h-auto object-contain block"
-                referrerPolicy="no-referrer"
               />
             </div>
           </motion.div>
@@ -253,8 +254,8 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
             className="lg:col-span-7 flex flex-col text-left"
           >
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl leading-tight font-extrabold text-white mb-6 sm:mb-8">
-              Precision-led growth <br />
-              for high-impact creators.
+              Precise growth <br />
+              for creators with serious momentum.
             </h2>
             
             <p className="font-sans text-base sm:text-lg text-on-surface-variant mb-6 leading-relaxed">
@@ -305,10 +306,9 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
           >
             <div className="relative bg-black/95 rounded-3xl p-4 overflow-hidden border border-glass-border/40 shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
               <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeQ5OLaNJbYXw_SYMQC_5fap7vwqdWvVJmCYyXf9NmDYThAVVfZtYsFMTi_jQwNfrstJ6L9eDrxi3OZUdKmeZxE6mmOLEDhOCCUp9If4ywdJ149qnkHOfYvWFg5haRyI0uROf_Tgzb9fTAC7Qe_Mv8mW09l7Ql7w0FYFQ_7asBKBTt4yu5HJ8G0y20jnouN5VO1ySy-pyDHcvJYZ9GXVAwK1FF9ob9ZkzQuaffRAwdjd0Ds-lVOQrpZa8hsgmzx-E3CKcyn2Dixqs" 
-                alt="Professional high retention video editing production environment setup timeline" 
+                src={productionImageUrl} 
+                alt="Professional video editing production environment setup timeline" 
                 className="w-full aspect-square object-cover rounded-2xl shadow-inner brightness-90 hover:brightness-100 transition-all duration-300"
-                referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-dark-bg/60 via-transparent to-transparent pointer-events-none" />
             </div>
@@ -334,7 +334,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
               Our Expertise
             </span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
-              End-to-end management.
+              Complete channel management.
             </h2>
           </div>
           <p className="font-sans text-base sm:text-lg text-on-surface-variant max-w-xl leading-relaxed">
@@ -410,7 +410,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
             The STW Process
           </h2>
           <p className="font-sans text-base sm:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
-            Our four-pillar approach to scaling attention without sacrificing creative integrity.
+            Our four part approach to scaling attention without sacrificing creative integrity.
           </p>
         </motion.div>
 

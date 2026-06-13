@@ -91,7 +91,7 @@ function buildHtmlBody({ name, email, brandName, youtubeUrl, monthlyViews, month
           <tr>
             <td style="background:linear-gradient(90deg,#2563eb,#3b82f6);padding:24px 32px;">
               <p style="margin:0;color:#fff;font-size:18px;font-weight:800;letter-spacing:0.5px;">
-                STW Media — New Consultation Inquiry
+                STW Media New Consultation Inquiry
               </p>
             </td>
           </tr>
@@ -320,7 +320,7 @@ export default async function handler(req, res) {
 
   // ── Build email content ──
   const payload = { name, email, brandName, youtubeUrl, monthlyViews, monthlyBudget, services, message };
-  const subjectLine = `New Consultation Inquiry — ${name}${brandName ? ` (${brandName})` : ''}`;
+  const subjectLine = `New Consultation Inquiry from ${name}${brandName ? ` (${brandName})` : ''}`;
 
   const mailOptions = {
     from: {

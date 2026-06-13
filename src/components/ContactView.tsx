@@ -27,7 +27,7 @@ const EMPTY_FORM: InquiryFormData = {
   brandName: '',
   youtubeUrl: '',
   monthlyViews: '< 100k',
-  monthlyBudget: '$2,000 - $5,000',
+  monthlyBudget: '$500 to $2,000',
   servicesInterested: [],
   message: '',
 };
@@ -351,8 +351,8 @@ export default function ContactView({ setScreen }: ContactViewProps) {
                       className="w-full bg-[#161818] border border-glass-border rounded-xl px-4 py-3.5 text-white appearance-none focus:border-vibrant-blue focus:outline-none transition-colors disabled:opacity-60"
                     >
                       <option value="< 100k">&lt; 100k Views</option>
-                      <option value="100k - 500k">100k – 500k Views</option>
-                      <option value="500k - 2M">500k – 2M Views</option>
+                      <option value="100k to 500k">100k to 500k Views</option>
+                      <option value="500k to 2M">500k to 2M Views</option>
                       <option value="2M+">2M+ Views/Month</option>
                     </select>
                     <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
@@ -372,10 +372,10 @@ export default function ContactView({ setScreen }: ContactViewProps) {
                       disabled={isSubmitting}
                       className="w-full bg-[#161818] border border-glass-border rounded-xl px-4 py-3.5 text-white appearance-none focus:border-vibrant-blue focus:outline-none transition-colors disabled:opacity-60"
                     >
-                      <option value="< $2,000">&lt; $2,000 / month</option>
-                      <option value="$2,000 - $5,000">$2,000 – $5,000</option>
-                      <option value="$5,000 - $10,000">$5,000 – $10,000</option>
-                      <option value="$10,000+">$10,000+ / month</option>
+                      <option value="$500 to $2,000">$500 to $2,000</option>
+                      <option value="$2,000 to $5,000">$2,000 to $5,000</option>
+                      <option value="$5,000 to $10,000">$5,000 to $10,000</option>
+                      <option value="$10,000+">$10,000+</option>
                     </select>
                     <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
                   </div>
