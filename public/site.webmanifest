@@ -1,0 +1,22 @@
+{
+  "name": "STW Media",
+  "short_name": "STW Media",
+  "description": "YouTube growth strategy and content management for creators and brands.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#121414",
+  "theme_color": "#121414",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32 48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/stw-media-logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
