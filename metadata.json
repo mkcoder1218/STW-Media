@@ -1,6 +1,6 @@
 {
-  "name": "Remix: Remix: STW Media",
-  "description": "Scale your presence with STW Media. We turn YouTube channels into growth engines.",
+  "name": "STW Media",
+  "description": "YouTube growth strategy and content management for creators and brands.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
