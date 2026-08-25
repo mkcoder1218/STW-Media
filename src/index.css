@@ -20,17 +20,23 @@ html,
 body,
 #root {
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /*
- * The home view contains a viewport-pinned work section. `overflow-hidden` on
- * an ancestor creates a scrolling container and prevents the sticky orbit
- * frame from remaining attached to the viewport. Clip only the horizontal
- * overflow instead so the 400vh work track can keep its sticky child pinned
- * until every project has revolved through.
+ * The work showcase uses a 400vh scroll track with a viewport-sticky child.
+ * `overflow-x: hidden` on ANY ancestor can create a scrolling box (its other
+ * overflow axis computes to auto), which changes the sticky containing block
+ * and lets the showcase move away before the scroll sequence is finished.
+ *
+ * App.tsx intentionally uses Tailwind's `overflow-x-hidden` on the app shell
+ * and <main> for general page clipping. Override only those two ancestors with
+ * `clip`, which still prevents horizontal spill without creating a scroll
+ * container. This keeps the orbit frame pinned to the viewport for the entire
+ * 01 → 04 sequence.
  */
-#root > .relative.text-on-surface.bg-dark-bg.min-h-screen.overflow-hidden {
+#root > div,
+#root > div > main {
   overflow-x: clip !important;
   overflow-y: visible !important;
 }
