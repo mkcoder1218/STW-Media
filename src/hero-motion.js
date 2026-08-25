@@ -127,6 +127,133 @@ heroStyle.textContent = `
 `;
 document.head.appendChild(heroStyle);
 
+const aboutStyle = document.createElement('style');
+aboutStyle.textContent = `
+  #about-section .stw-camera-stage {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  #about-section .stw-camera-stage img {
+    will-change: transform, filter, opacity;
+    transform-origin: center center;
+  }
+
+  .stw-camera-flash {
+    position: absolute;
+    inset: 0;
+    z-index: 12;
+    background: rgba(255,255,255,.98);
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  .stw-camera-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 8;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(circle at center, transparent 35%, rgba(0,0,0,.6) 100%);
+  }
+
+  .stw-camera-focus {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 10;
+    width: 56%;
+    aspect-ratio: 1.35;
+    transform: translate(-50%, -50%) scale(1.16);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .stw-camera-focus span {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    border-color: rgba(255,255,255,.9);
+    filter: drop-shadow(0 0 9px rgba(0,153,255,.25));
+  }
+
+  .stw-camera-focus span:nth-child(1) {
+    left: 0;
+    top: 0;
+    border-left: 2px solid;
+    border-top: 2px solid;
+  }
+
+  .stw-camera-focus span:nth-child(2) {
+    right: 0;
+    top: 0;
+    border-right: 2px solid;
+    border-top: 2px solid;
+  }
+
+  .stw-camera-focus span:nth-child(3) {
+    left: 0;
+    bottom: 0;
+    border-left: 2px solid;
+    border-bottom: 2px solid;
+  }
+
+  .stw-camera-focus span:nth-child(4) {
+    right: 0;
+    bottom: 0;
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+  }
+
+  .stw-camera-focus::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: #0099ff;
+    box-shadow: 0 0 16px rgba(0,153,255,.8);
+  }
+
+  #about-section .stw-camera-stat {
+    transform-origin: 18% 50%;
+    will-change: transform, opacity, filter;
+  }
+
+  #about-section .stw-camera-stat::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    border: 1px solid rgba(0,153,255,0);
+    pointer-events: none;
+    transition: border-color .35s ease, box-shadow .35s ease;
+  }
+
+  #about-section .stw-camera-stat.is-captured::after {
+    border-color: rgba(0,153,255,.26);
+    box-shadow: inset 0 0 24px rgba(0,153,255,.04), 0 0 26px rgba(0,153,255,.05);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stw-camera-focus,
+    .stw-camera-flash,
+    .stw-camera-vignette { display: none !important; }
+    #about-section .stw-camera-stage img,
+    #about-section .stw-camera-stat {
+      transform: none !important;
+      opacity: 1 !important;
+      filter: none !important;
+    }
+  }
+`;
+document.head.appendChild(aboutStyle);
+
 function createChip(className, value, label) {
   const chip = document.createElement('div');
   chip.className = `stw-hero-chip ${className}`;
@@ -260,10 +387,118 @@ function enhanceHero() {
   return true;
 }
 
+function enhanceAboutCamera() {
+  const gsap = window.gsap;
+  const ScrollTrigger = window.ScrollTrigger;
+  if (!gsap || !ScrollTrigger) return false;
+
+  const section = document.getElementById('about-section');
+  if (!section || section.dataset.cameraReady === 'true') return !!section;
+
+  const image = section.querySelector('img[alt*="Professional video editing"]');
+  if (!image) return false;
+
+  const imageStage = image.parentElement;
+  if (!imageStage) return false;
+
+  const statsWrap = section.querySelector('.flex.flex-col.gap-5.mt-4');
+  const statCards = statsWrap ? [...statsWrap.children] : [];
+  if (!statCards.length) return false;
+
+  section.dataset.cameraReady = 'true';
+  imageStage.classList.add('stw-camera-stage');
+  statCards.forEach((card) => card.classList.add('stw-camera-stat'));
+
+  const flash = document.createElement('div');
+  flash.className = 'stw-camera-flash';
+
+  const vignette = document.createElement('div');
+  vignette.className = 'stw-camera-vignette';
+
+  const focus = document.createElement('div');
+  focus.className = 'stw-camera-focus';
+  focus.setAttribute('aria-hidden', 'true');
+  focus.innerHTML = '<span></span><span></span><span></span><span></span>';
+
+  imageStage.appendChild(vignette);
+  imageStage.appendChild(focus);
+  imageStage.appendChild(flash);
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reducedMotion) {
+    statCards.forEach((card) => card.classList.add('is-captured'));
+    return true;
+  }
+
+  gsap.set(image, {
+    scale: 1.075,
+    filter: 'blur(11px) brightness(.58) saturate(.82)',
+    opacity: .92,
+  });
+  gsap.set(focus, { opacity: 0, scale: 1.18 });
+  gsap.set(vignette, { opacity: .34 });
+  gsap.set(statCards, {
+    opacity: 0,
+    y: 22,
+    scale: .955,
+    filter: 'blur(5px)',
+  });
+
+  const capture = gsap.timeline({
+    paused: true,
+    defaults: { ease: 'power3.out' },
+  });
+
+  capture
+    .to(focus, { opacity: .88, scale: 1.07, duration: .28 })
+    .to(focus, { scale: .88, duration: .34, ease: 'power2.inOut' })
+    .to(image, {
+      scale: 1,
+      filter: 'blur(0px) brightness(1) saturate(1)',
+      opacity: 1,
+      duration: .42,
+      ease: 'power4.out',
+    }, '-=.28')
+    .to(vignette, { opacity: 0, duration: .24 }, '-=.22')
+    .to(focus, { opacity: 0, duration: .12 }, '-=.06')
+    .to(flash, { opacity: .94, duration: .055, ease: 'none' })
+    .to(flash, { opacity: 0, duration: .13, ease: 'power2.out' })
+    .to(image, { scale: .986, duration: .075, ease: 'power2.in' }, '<')
+    .to(image, { scale: 1, duration: .2, ease: 'back.out(2.2)' })
+    .to(statCards, {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: 'blur(0px)',
+      duration: .36,
+      stagger: .16,
+      ease: 'back.out(1.7)',
+      onStart: () => {
+        statCards.forEach((card, index) => {
+          window.setTimeout(() => card.classList.add('is-captured'), index * 160 + 130);
+        });
+      },
+    }, '-=.03');
+
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top 68%',
+    once: true,
+    onEnter: () => capture.play(0),
+  });
+
+  ScrollTrigger.refresh();
+  return true;
+}
+
 let attempts = 0;
 const tryEnhance = () => {
   attempts += 1;
-  if (enhanceHero() || attempts > 80) return;
+  const heroReady = enhanceHero();
+  const aboutReady = enhanceAboutCamera();
+  if ((heroReady && aboutReady) || attempts > 80) return;
   window.setTimeout(tryEnhance, 80);
 };
 
@@ -276,5 +511,8 @@ if (document.readyState === 'loading') {
 const heroObserver = new MutationObserver(() => {
   const hero = document.querySelector(HERO_SELECTOR);
   if (hero && hero.dataset.gsapHeroReady !== 'true') enhanceHero();
+
+  const about = document.getElementById('about-section');
+  if (about && about.dataset.cameraReady !== 'true') enhanceAboutCamera();
 });
 heroObserver.observe(document.getElementById('root') || document.documentElement, { childList: true, subtree: true });
