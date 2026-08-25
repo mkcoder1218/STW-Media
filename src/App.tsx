@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Bell, Play, ThumbsUp, Volume2, VolumeX, X } from 'lucide-react';
+import { Play, Volume2, VolumeX, X } from 'lucide-react';
 import Navigation from './components/Navigation';
 import HomeView from './components/HomeView';
 import ContactView from './components/ContactView';
@@ -42,6 +42,7 @@ export default function App() {
   const [hoveredWork, setHoveredWork] = useState<WorkHover | null>(null);
   const [selectedWork, setSelectedWork] = useState<WorkVideoSelection | null>(null);
   const [modalMuted, setModalMuted] = useState(true);
+  const [isWorkCinema, setIsWorkCinema] = useState(false);
 
   const manualScrollRef = React.useRef<boolean>(false);
   const timeoutRef = React.useRef<number | null>(null);
@@ -99,6 +100,36 @@ export default function App() {
       observer.disconnect();
       window.removeEventListener('scroll', handleScroll);
       if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+    };
+  }, [screen]);
+
+  useEffect(() => {
+    if (screen !== 'home') {
+      setIsWorkCinema(false);
+      return;
+    }
+
+    const workSection = document.getElementById('work-section');
+    if (!workSection) {
+      setIsWorkCinema(false);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsWorkCinema(entry.isIntersecting);
+      },
+      {
+        root: null,
+        threshold: 0.01,
+      }
+    );
+
+    observer.observe(workSection);
+
+    return () => {
+      observer.disconnect();
+      setIsWorkCinema(false);
     };
   }, [screen]);
 
@@ -253,12 +284,25 @@ export default function App() {
 
   return (
     <div className="bg-dark-bg text-on-surface font-sans min-h-screen overflow-x-hidden selection:bg-brand-blue selection:text-white">
-      <Navigation
-        currentScreen={screen}
-        setScreen={setScreen}
-        scrollToSection={scrollToSection}
-        activeSection={activeSection}
-      />
+      <AnimatePresence initial={false}>
+        {!isWorkCinema && (
+          <motion.div
+            key="site-navigation"
+            initial={{ opacity: 0, y: -24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -110 }}
+            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+            className="relative z-[120]"
+          >
+            <Navigation
+              currentScreen={screen}
+              setScreen={setScreen}
+              scrollToSection={scrollToSection}
+              activeSection={activeSection}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <main className="w-full overflow-x-hidden">
         <AnimatePresence mode="wait">
@@ -318,17 +362,6 @@ export default function App() {
               </span>
               Play video
             </button>
-
-            <div className="absolute bottom-4 right-4 flex items-center gap-2 sm:bottom-5 sm:right-5">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-white/85 backdrop-blur-md sm:text-xs">
-                <ThumbsUp size={14} />
-                Like
-              </span>
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-white/85 backdrop-blur-md sm:text-xs">
-                <Bell size={14} />
-                Subscribe
-              </span>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -387,16 +420,9 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-3 border-t border-white/10 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-7 sm:py-5">
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-vibrant-blue">Selected Work</span>
-                  <h3 className="mt-1 font-display text-lg font-extrabold text-white sm:text-xl">{selectedWork.label}</h3>
-                </div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-white/55">
-                  <span className="inline-flex items-center gap-1.5"><ThumbsUp size={14} /> Like</span>
-                  <span className="text-white/20">•</span>
-                  <span className="inline-flex items-center gap-1.5"><Bell size={14} /> Subscribe</span>
-                </div>
+              <div className="border-t border-white/10 px-5 py-4 sm:px-7 sm:py-5">
+                <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-vibrant-blue">Selected Work</span>
+                <h3 className="mt-1 font-display text-lg font-extrabold text-white sm:text-xl">{selectedWork.label}</h3>
               </div>
             </motion.div>
           </motion.div>
