@@ -23,6 +23,18 @@ body,
   overflow-x: hidden;
 }
 
+/*
+ * The home view contains a viewport-pinned work section. `overflow-hidden` on
+ * an ancestor creates a scrolling container and prevents the sticky orbit
+ * frame from remaining attached to the viewport. Clip only the horizontal
+ * overflow instead so the 400vh work track can keep its sticky child pinned
+ * until every project has revolved through.
+ */
+#root > .relative.text-on-surface.bg-dark-bg.min-h-screen.overflow-hidden {
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
 body {
   background-color: #121414;
   color: #e2e2e2;
