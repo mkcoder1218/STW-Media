@@ -109,26 +109,53 @@ export default function App() {
       return;
     }
 
-    const workSection = document.getElementById('work-section');
-    if (!workSection) {
-      setIsWorkCinema(false);
-      return;
+    let frameId: number | null = null;
+
+    const syncWorkCinema = () => {
+      frameId = null;
+
+      const workSection = document.getElementById('work-section');
+      if (!workSection) {
+        setIsWorkCinema(false);
+        return;
+      }
+
+      const rect = workSection.getBoundingClientRect();
+      const header = document.querySelector('header');
+      const headerHeight = header?.getBoundingClientRect().height ?? 96;
+      const activationLine = Math.min(
+        Math.max(headerHeight, 72),
+        window.innerHeight * 0.18
+      );
+      const nextIsWorkCinema = rect.top <= activationLine && rect.bottom > 1;
+
+      setIsWorkCinema((current) =>
+        current === nextIsWorkCinema ? current : nextIsWorkCinema
+      );
+    };
+
+    const requestCinemaSync = () => {
+      if (frameId !== null) return;
+      frameId = window.requestAnimationFrame(syncWorkCinema);
+    };
+
+    requestCinemaSync();
+    window.addEventListener('scroll', requestCinemaSync, { passive: true });
+    window.addEventListener('resize', requestCinemaSync);
+
+    const root = document.getElementById('root');
+    const domObserver = new MutationObserver(requestCinemaSync);
+    if (root) {
+      domObserver.observe(root, { childList: true, subtree: true });
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsWorkCinema(entry.isIntersecting);
-      },
-      {
-        root: null,
-        threshold: 0.01,
-      }
-    );
-
-    observer.observe(workSection);
-
     return () => {
-      observer.disconnect();
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+      window.removeEventListener('scroll', requestCinemaSync);
+      window.removeEventListener('resize', requestCinemaSync);
+      domObserver.disconnect();
       setIsWorkCinema(false);
     };
   }, [screen]);
@@ -231,7 +258,7 @@ export default function App() {
 
       if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
 
-      const headerOffset = 90;
+      const headerOffset = sectionId === 'work-section' ? 0 : 90;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
