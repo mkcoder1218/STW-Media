@@ -16,27 +16,34 @@
   --color-surface-container-lowest: #0c0f0f;
 }
 
+/*
+ * IMPORTANT FOR THE SCROLL-PINNED WORK SECTION
+ *
+ * `overflow-x: hidden` creates a scrolling ancestor in browsers and causes
+ * descendants using `position: sticky` to release/move with that ancestor.
+ * `clip` prevents horizontal paint overflow without creating a scroll
+ * container, so the 400vh work track can keep its h-screen child pinned.
+ */
 html,
 body,
 #root {
   max-width: 100%;
   overflow-x: clip;
+  overflow-y: visible;
 }
 
-/*
- * The work showcase uses a 400vh scroll track with a viewport-sticky child.
- * `overflow-x: hidden` on ANY ancestor can create a scrolling box (its other
- * overflow axis computes to auto), which changes the sticky containing block
- * and lets the showcase move away before the scroll sequence is finished.
- *
- * App.tsx intentionally uses Tailwind's `overflow-x-hidden` on the app shell
- * and <main> for general page clipping. Override only those two ancestors with
- * `clip`, which still prevents horizontal spill without creating a scroll
- * container. This keeps the orbit frame pinned to the viewport for the entire
- * 01 → 04 sequence.
- */
+/* App shell + main must not become scroll containers. */
 #root > div,
 #root > div > main {
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+/* HomeView itself still carries Tailwind's `overflow-hidden` class. The old
+ * override only targeted a direct child of #root, but HomeView is nested below
+ * App -> main -> motion.div, so it never matched. Override the actual shell
+ * wherever it sits under main. Normal media cards keep their own clipping. */
+main .relative.text-on-surface.bg-dark-bg.min-h-screen.overflow-hidden {
   overflow-x: clip !important;
   overflow-y: visible !important;
 }
