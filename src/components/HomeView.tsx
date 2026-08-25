@@ -321,78 +321,85 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
       </section>
 
       {/* Services Section */}
-      <section id="services-section" className="py-16 sm:py-24 lg:py-36 px-4 sm:px-6 bg-surface-container-low/40">
+      <section id="services-section" className="py-16 sm:py-24 lg:py-36 px-4 sm:px-6 bg-surface-container-low/40 overflow-hidden">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="max-w-[1280px] mx-auto mb-10 sm:mb-16 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6"
+          className="max-w-[1280px] mx-auto mb-12 sm:mb-16 lg:mb-20 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end"
         >
-          <div>
-            <span className="text-vibrant-blue text-xs uppercase font-bold tracking-[0.25em] mb-3 block">
+          <div className="lg:col-span-6">
+            <span className="text-vibrant-blue text-xs uppercase font-bold tracking-[0.25em] mb-4 block">
               Our Expertise
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-[1.08] max-w-xl">
               Complete channel management.
             </h2>
           </div>
-          <p className="font-sans text-base sm:text-lg text-on-surface-variant max-w-xl leading-relaxed">
-            We provide a comprehensive suite of services designed to move the needle for channels that have hit a plateau.
-          </p>
+          <div className="lg:col-span-6 lg:pb-1">
+            <p className="font-sans text-base sm:text-lg text-on-surface-variant max-w-xl lg:ml-auto leading-relaxed">
+              We provide a comprehensive suite of services designed to move the needle for channels that have hit a plateau.
+            </p>
+          </div>
         </motion.div>
 
-        {/* Dynamic hovered clipped-path tech layout of services */}
-        <div className="max-w-[1280px] mx-auto space-y-6">
+        <div className="max-w-[1280px] mx-auto space-y-5 sm:space-y-6">
           {services.map((service, idx) => (
-            <motion.div 
+            <motion.button
               key={service.id}
+              type="button"
               onClick={() => setScreen('contact')}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 34 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false, margin: "-80px" }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              whileHover={{ scale: 1.012 }}
+              transition={{ duration: 0.55, delay: idx * 0.1 }}
+              whileHover={{ y: -2 }}
               whileTap={{ scale: 0.995 }}
-              className="group p-[1px] relative cursor-pointer transition-all duration-300"
+              className="group relative block w-full min-h-[150px] sm:min-h-[165px] p-[1px] text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-vibrant-blue/70 focus-visible:ring-offset-2 focus-visible:ring-offset-dark-bg"
               style={{
                 clipPath: 'polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px))',
                 backgroundColor: 'rgba(255, 255, 255, 0.12)'
               }}
+              aria-label={`${service.title}: ${service.description}`}
             >
-              {/* Dynamic glowing neon border effect on hover */}
-              <div 
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-brand-blue via-vibrant-blue to-[#00f0ff] transition-opacity duration-500"
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 bg-gradient-to-r from-brand-blue via-vibrant-blue to-[#00f0ff] transition-opacity duration-500"
                 style={{
                   clipPath: 'polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px))'
                 }}
               />
 
-              {/* Inner container with matching inner clip-path to act as border padding */}
-              <div 
-                className="relative bg-surface-container-low/95 group-hover:bg-[#121415]/95 transition-colors duration-300 p-5 sm:p-8 md:p-10 lg:p-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-5 sm:gap-6"
+              <div
+                className="relative h-full min-h-[148px] sm:min-h-[163px] bg-surface-container-low/95 group-hover:bg-[#121415]/98 group-focus-visible:bg-[#121415]/98 transition-colors duration-300 px-5 py-7 sm:px-8 sm:py-8 lg:px-12 lg:py-9"
                 style={{
                   clipPath: 'polygon(0.5px 0.5px, calc(100% - 23.5px) 0.5px, calc(100% - 0.5px) 23.5px, calc(100% - 0.5px) calc(100% - 0.5px), 23.5px calc(100% - 0.5px), 0.5px calc(100% - 23.5px))'
                 }}
               >
-                <div className="flex gap-4 sm:gap-8 items-center w-full md:w-auto">
-                  <span className="text-vibrant-blue font-display font-extrabold text-2xl sm:text-3xl lg:text-4xl">
-                    {service.num}
-                  </span>
-                  <h3 className="font-display text-xl sm:text-2xl lg:text-3xl font-extrabold text-white group-hover:text-vibrant-blue transition-colors">
-                    {service.title}
-                  </h3>
+                <div className="absolute top-0 left-0 right-0 h-px overflow-hidden pointer-events-none">
+                  <div className="h-full w-full origin-left scale-x-0 group-hover:scale-x-100 group-focus-visible:scale-x-100 bg-gradient-to-r from-vibrant-blue via-brand-blue to-transparent transition-transform duration-700 ease-out" />
                 </div>
-                
-                <p className="text-sm sm:text-base text-on-surface-variant md:max-w-md lg:max-w-xl group-hover:text-white transition-colors leading-relaxed">
-                  {service.description}
-                </p>
-                
-                <div className="p-3 rounded-full border border-glass-border group-hover:border-vibrant-blue group-hover:bg-brand-blue/20 text-on-surface-variant group-hover:text-vibrant-blue transition-all shrink-0">
-                  <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform" />
+
+                <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)_auto] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1.35fr)_auto] gap-5 md:gap-8 lg:gap-12 items-start md:items-center">
+                  <div className="flex items-start sm:items-center gap-4 sm:gap-7 min-w-0">
+                    <span className="text-vibrant-blue font-display font-extrabold text-2xl sm:text-3xl lg:text-4xl leading-none transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-[1.04] group-focus-visible:-translate-y-1">
+                      {service.num}
+                    </span>
+                    <h3 className="font-display text-xl sm:text-2xl lg:text-[28px] font-extrabold text-white leading-tight transition-all duration-300 group-hover:translate-x-2 group-focus-visible:translate-x-2">
+                      {service.title}
+                    </h3>
+                  </div>
+
+                  <p className="text-sm sm:text-base text-on-surface-variant/90 md:max-w-xl group-hover:text-white group-focus-visible:text-white transition-all duration-300 leading-relaxed md:group-hover:translate-x-1 md:group-focus-visible:translate-x-1">
+                    {service.description}
+                  </p>
+
+                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-glass-border flex items-center justify-center text-on-surface-variant transition-all duration-300 group-hover:border-vibrant-blue group-hover:bg-vibrant-blue group-hover:text-white group-hover:shadow-[0_0_24px_rgba(0,153,255,0.25)] group-focus-visible:border-vibrant-blue group-focus-visible:bg-vibrant-blue group-focus-visible:text-white shrink-0">
+                    <ArrowRight size={20} className="transition-transform duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1" />
+                  </div>
                 </div>
               </div>
-            </motion.div>
+            </motion.button>
           ))}
         </div>
       </section>
