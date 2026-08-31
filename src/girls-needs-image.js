@@ -32,52 +32,46 @@ const GIRLS_NEEDS_IMAGE = `data:image/jpeg;base64,${[
   p08,
 ].join('')}`;
 
-function syncGirlsNeedsImage() {
+function syncGirlsNeedsCard() {
   const card = document.querySelector('#thumbnail-work-section .tw-card--girls');
   const cardImage = card?.querySelector('img');
+  if (!cardImage) return false;
 
-  if (cardImage) {
+  if (cardImage.dataset.src !== GIRLS_NEEDS_IMAGE) {
     cardImage.dataset.src = GIRLS_NEEDS_IMAGE;
-    if (cardImage.src !== GIRLS_NEEDS_IMAGE) cardImage.src = GIRLS_NEEDS_IMAGE;
+  }
+  if (cardImage.src !== GIRLS_NEEDS_IMAGE) {
+    cardImage.src = GIRLS_NEEDS_IMAGE;
   }
 
+  return true;
+}
+
+function syncGirlsNeedsLightbox() {
   const lightbox = document.querySelector('.tw-lightbox');
-  const lightboxTitle = lightbox?.querySelector('.tw-lightbox__title')?.textContent?.trim();
-  const lightboxImage = lightbox?.querySelector('.tw-lightbox__image');
+  const title = lightbox?.querySelector('.tw-lightbox__title')?.textContent?.trim();
+  const image = lightbox?.querySelector('.tw-lightbox__image');
 
-  if (lightboxImage && lightboxTitle === 'Girls Needs' && lightboxImage.src !== GIRLS_NEEDS_IMAGE) {
-    lightboxImage.src = GIRLS_NEEDS_IMAGE;
+  if (image && title === 'Girls Needs' && image.src !== GIRLS_NEEDS_IMAGE) {
+    image.src = GIRLS_NEEDS_IMAGE;
   }
-
-  return Boolean(cardImage);
 }
 
 let attempts = 0;
-const trySyncGirlsNeedsImage = () => {
+const trySyncGirlsNeedsCard = () => {
   attempts += 1;
-  if (syncGirlsNeedsImage() || attempts > 100) return;
-  window.setTimeout(trySyncGirlsNeedsImage, 80);
+  if (syncGirlsNeedsCard() || attempts > 100) return;
+  window.setTimeout(trySyncGirlsNeedsCard, 80);
 };
 
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', trySyncGirlsNeedsImage, { once: true });
+  document.addEventListener('DOMContentLoaded', trySyncGirlsNeedsCard, { once: true });
 } else {
-  trySyncGirlsNeedsImage();
+  trySyncGirlsNeedsCard();
 }
 
-const imageObserver = new MutationObserver(() => {
-  syncGirlsNeedsImage();
-});
-
-imageObserver.observe(document.getElementById('root') || document.documentElement, {
-  childList: true,
-  subtree: true,
-  attributes: true,
-  attributeFilter: ['src'],
-});
-
 document.addEventListener('click', (event) => {
-  if (event.target instanceof Element && event.target.closest('.tw-card--girls')) {
-    window.setTimeout(syncGirlsNeedsImage, 0);
-  }
+  if (!(event.target instanceof Element)) return;
+  if (!event.target.closest('.tw-card--girls')) return;
+  window.setTimeout(syncGirlsNeedsLightbox, 0);
 });
