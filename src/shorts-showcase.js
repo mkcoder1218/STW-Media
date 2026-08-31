@@ -123,11 +123,17 @@ function enhanceShorts() {
   const spread = Math.min(360, Math.max(150, window.innerWidth * 0.29));
   const sideShift = Math.min(250, Math.max(105, window.innerWidth * 0.2));
   const stackOffset = Math.min(52, Math.max(24, window.innerWidth * 0.035));
+  let focusedIndex = -1;
 
   const updateFocus = (progress) => {
     const index = Math.min(cards.length - 1, Math.max(0, Math.round(progress * (cards.length - 1))));
+    if (index === focusedIndex) return;
+
+    focusedIndex = index;
     cards.forEach((card, cardIndex) => card.classList.toggle('is-focus', cardIndex === index));
-    if (countLabel) countLabel.textContent = `${String(index + 1).padStart(2, '0')} / 03`;
+
+    const count = `${String(index + 1).padStart(2, '0')} / 03`;
+    if (countLabel && countLabel.textContent !== count) countLabel.textContent = count;
   };
 
   gsap.set(cards, {
@@ -144,7 +150,7 @@ function enhanceShorts() {
   });
 
   if (progressFill) gsap.set(progressFill, { scaleX: 0 });
-  cards[0].classList.add('is-focus');
+  updateFocus(0);
 
   const deck = gsap.timeline({
     defaults: { ease: 'none' },
@@ -224,13 +230,3 @@ if (document.readyState === 'loading') {
 } else {
   tryEnhanceShorts();
 }
-
-const shortsObserver = new MutationObserver(() => {
-  const section = document.getElementById(SHORTS_SECTION_ID);
-  if (section && section.dataset.shortsReady !== 'true') enhanceShorts();
-});
-
-shortsObserver.observe(document.getElementById('root') || document.documentElement, {
-  childList: true,
-  subtree: true,
-});
