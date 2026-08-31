@@ -120,6 +120,10 @@ function enhanceShorts() {
     return true;
   }
 
+  const spread = Math.min(360, Math.max(150, window.innerWidth * 0.29));
+  const sideShift = Math.min(250, Math.max(105, window.innerWidth * 0.2));
+  const stackOffset = Math.min(52, Math.max(24, window.innerWidth * 0.035));
+
   const updateFocus = (progress) => {
     const index = Math.min(cards.length - 1, Math.max(0, Math.round(progress * (cards.length - 1))));
     cards.forEach((card, cardIndex) => card.classList.toggle('is-focus', cardIndex === index));
@@ -129,20 +133,18 @@ function enhanceShorts() {
   gsap.set(cards, {
     xPercent: -50,
     yPercent: -50,
-    x: 0,
-    y: 0,
-    rotation: (index) => [-6, 0, 6][index],
-    rotationY: (index) => [-8, 0, 8][index],
-    scale: (index) => [0.92, 1, 0.92][index],
-    opacity: (index) => [0.68, 1, 0.68][index],
-    filter: (index) => index === 1 ? 'brightness(1)' : 'brightness(.72)',
-    zIndex: (index) => [10, 30, 20][index],
+    x: (index) => index * stackOffset,
+    y: (index) => -18 + index * 18,
+    rotation: (index) => index * 4,
+    rotationY: (index) => index * 4,
+    scale: (index) => 1 - index * 0.055,
+    opacity: (index) => 1 - index * 0.18,
+    filter: (index) => index === 0 ? 'brightness(1)' : 'brightness(.74)',
+    zIndex: (index) => 30 - index * 10,
   });
 
-  gsap.set(cards[0], { x: -34, y: 22 });
-  gsap.set(cards[2], { x: 34, y: 22 });
   if (progressFill) gsap.set(progressFill, { scaleX: 0 });
-  cards[1].classList.add('is-focus');
+  cards[0].classList.add('is-focus');
 
   const deck = gsap.timeline({
     defaults: { ease: 'none' },
@@ -156,15 +158,15 @@ function enhanceShorts() {
   });
 
   deck
-    .to(cards[0], { x: -360, y: 22, rotation: -12, rotationY: -16, scale: 0.86, opacity: 0.72, filter: 'brightness(.78)', duration: 1 }, 0)
-    .to(cards[1], { x: 0, y: -18, rotation: 0, rotationY: 0, scale: 1.035, opacity: 1, filter: 'brightness(1)', duration: 1 }, 0)
-    .to(cards[2], { x: 360, y: 22, rotation: 12, rotationY: 16, scale: 0.86, opacity: 0.72, filter: 'brightness(.78)', duration: 1 }, 0)
-    .to(cards[0], { x: -430, y: -18, rotation: -7, rotationY: -8, scale: 0.88, opacity: 0.78, duration: 1 }, 1)
-    .to(cards[1], { x: -118, y: 20, rotation: -4, rotationY: -5, scale: 0.92, opacity: 0.8, filter: 'brightness(.82)', duration: 1 }, 1)
-    .to(cards[2], { x: 190, y: -26, rotation: 4, rotationY: 4, scale: 1.04, opacity: 1, filter: 'brightness(1)', duration: 1 }, 1)
-    .to(cards[0], { x: -300, y: 24, rotation: -8, rotationY: -8, scale: 0.87, opacity: 0.74, duration: 1 }, 2)
-    .to(cards[1], { x: 0, y: -30, rotation: 0, rotationY: 0, scale: 0.94, opacity: 0.86, filter: 'brightness(.88)', duration: 1 }, 2)
-    .to(cards[2], { x: 300, y: 16, rotation: 8, rotationY: 8, scale: 1, opacity: 1, filter: 'brightness(1)', duration: 1 }, 2);
+    .to(cards[0], { x: -spread, y: 22, rotation: -12, rotationY: -14, scale: 0.86, opacity: 0.64, filter: 'brightness(.72)', duration: 1 }, 0)
+    .to(cards[1], { x: 0, y: -18, rotation: 0, rotationY: 0, scale: 1, opacity: 1, filter: 'brightness(1)', duration: 1 }, 0)
+    .to(cards[2], { x: sideShift, y: 20, rotation: 8, rotationY: 10, scale: 0.9, opacity: 0.66, filter: 'brightness(.72)', duration: 1 }, 0)
+    .to(cards[0], { x: -spread * 1.08, y: 30, rotation: -10, rotationY: -10, scale: 0.82, opacity: 0.42, duration: 1 }, 1)
+    .to(cards[1], { x: -sideShift, y: 18, rotation: -8, rotationY: -8, scale: 0.88, opacity: 0.7, filter: 'brightness(.78)', duration: 1 }, 1)
+    .to(cards[2], { x: 0, y: -18, rotation: 0, rotationY: 0, scale: 1, opacity: 1, filter: 'brightness(1)', duration: 1 }, 1)
+    .to(cards[0], { x: -spread, y: 34, rotation: -8, rotationY: -8, scale: 0.8, opacity: 0.34, duration: 1 }, 2)
+    .to(cards[1], { x: -spread * 0.62, y: 24, rotation: -7, rotationY: -7, scale: 0.84, opacity: 0.52, filter: 'brightness(.7)', duration: 1 }, 2)
+    .to(cards[2], { x: 0, y: -24, rotation: 0, rotationY: 0, scale: 1.035, opacity: 1, filter: 'brightness(1)', duration: 1 }, 2);
 
   if (progressFill) {
     gsap.to(progressFill, {
