@@ -11,18 +11,18 @@ import {
   useTransform,
   type MotionValue,
 } from 'motion/react';
-import { 
-  ArrowRight, 
-  Sparkles, 
-  Film, 
-  Eye, 
-  Youtube, 
-  Linkedin, 
-  Instagram, 
-  Twitter, 
-  Share2, 
-  Mail, 
-  Lock, 
+import {
+  ArrowRight,
+  Sparkles,
+  Film,
+  Eye,
+  Youtube,
+  Linkedin,
+  Instagram,
+  Twitter,
+  Share2,
+  Mail,
+  Lock,
   Flame,
   TrendingUp,
   Award
@@ -138,7 +138,12 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
     { id: 'work-1', youtubeId: 'sGnHyLfw68A', label: 'Featured Work 01' },
     { id: 'work-2', youtubeId: '3UOGEjwkZOA', label: 'Featured Work 02' },
     { id: 'work-3', youtubeId: 'gEPfF6BFAB4', label: 'Featured Work 03' },
-    { id: 'work-4', youtubeId: '3aBB_yxOE1Q', label: 'Featured Work 04' },
+  ];
+
+  const shortVideos: WorkVideo[] = [
+    { id: 'short-1', youtubeId: 'bvTwYRxedJk', label: 'Short-form Work 01' },
+    { id: 'short-2', youtubeId: 'pWRUhMqxE_g', label: 'Short-form Work 02' },
+    { id: 'short-3', youtubeId: 'yFX-BOck9GE', label: 'Short-form Work 03' },
   ];
 
   const workSectionRef = useRef<HTMLElement | null>(null);
@@ -206,7 +211,7 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
         <div className="max-w-4xl mx-auto relative px-4 sm:px-8"><div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-brand-blue via-vibrant-blue to-transparent transform -translate-x-1/2 opacity-30" /><div className="space-y-16 relative">{processSteps.map((step, idx) => { const isEven = idx % 2 === 1; return <div key={step.id} className={`flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12 relative ${isEven ? 'md:flex-row-reverse' : ''}`}><motion.div initial={{ opacity: 0, x: isEven ? 50 : -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: false, margin: '-80px' }} transition={{ duration: 0.6, type: 'spring', stiffness: 80 }} className="w-full md:w-1/2 pl-10 sm:pl-12 md:pl-0"><motion.div whileHover={{ scale: 1.02 }} className={`glass-card p-5 sm:p-8 rounded-2xl border transition-all text-left group cursor-pointer ${!isEven ? 'md:text-right' : 'md:text-left'}`}><span className="text-xs font-bold text-vibrant-blue uppercase tracking-widest mb-2 block">{step.phaseName}</span><h4 className="font-display text-lg sm:text-xl font-extrabold text-white mb-3">{step.title}</h4><p className="text-xs sm:text-sm text-on-surface-variant/90 leading-relaxed group-hover:text-white transition-colors">{step.description}</p></motion.div></motion.div><div className="absolute left-6 md:left-1/2 -translate-x-1/2 top-4 md:top-auto w-5 h-5 rounded-full bg-dark-bg z-10 flex items-center justify-center"><span className="w-3.5 h-3.5 rounded-full bg-vibrant-blue shadow-[0_0_12px_#0099ff] ring-2 ring-vibrant-blue/20" /></div><div className="hidden md:block w-1/2" /></div>; })}</div></div>
       </section>
 
-      <section ref={workSectionRef} id="work-section" className="relative h-[400vh] bg-[#0b0d0e]">
+      <section ref={workSectionRef} id="work-section" className="relative h-[300vh] bg-[#0b0d0e]">
         <div className="sticky top-0 flex h-screen items-center overflow-hidden border-y border-white/[0.06]">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,153,255,0.11),transparent_42%)]" />
           <div className="absolute left-1/2 top-1/2 h-[58vw] max-h-[820px] w-[58vw] max-w-[820px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.04]" />
@@ -214,6 +219,47 @@ export default function HomeView({ setScreen, scrollToSection }: HomeViewProps) 
           <div className="absolute left-4 right-4 top-8 z-40 mx-auto flex max-w-[1280px] items-start justify-between gap-6 sm:left-6 sm:right-6 sm:top-12"><div><span className="mb-2 block text-[10px] font-bold uppercase tracking-[0.28em] text-vibrant-blue sm:text-xs">Selected Work</span><h2 className="font-display text-3xl font-extrabold text-white sm:text-4xl lg:text-5xl">Work in orbit.</h2></div><p className="hidden max-w-sm pt-2 text-right text-sm leading-relaxed text-on-surface-variant md:block">Scroll to revolve through the work. The project facing you plays automatically.</p></div>
           <div className="relative mx-auto h-[70vh] w-full max-w-[1440px]" style={{ perspective: '1400px', transformStyle: 'preserve-3d' }}>{workVideos.map((video, index) => <OrbitWorkCard key={video.id} video={video} index={index} total={workVideos.length} progress={workScrollProgress} isActive={index === activeWorkIndex} />)}</div>
           <div className="absolute bottom-7 left-1/2 z-40 w-[min(560px,82vw)] -translate-x-1/2 sm:bottom-10"><div className="mb-3 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-white/45"><span>Scroll to explore</span><span>{String(activeWorkIndex + 1).padStart(2, '0')} / {String(workVideos.length).padStart(2, '0')}</span></div><div className="flex gap-2">{workVideos.map((video, index) => <div key={video.id} className="h-[2px] flex-1 overflow-hidden rounded-full bg-white/10"><motion.div className="h-full origin-left bg-vibrant-blue" animate={{ scaleX: index <= activeWorkIndex ? 1 : 0 }} transition={{ duration: 0.35 }} /></div>)}</div></div>
+        </div>
+      </section>
+
+      <section id="shorts-section" className="relative h-[320vh] overflow-visible bg-[#080a0b]">
+        <div className="sticky top-0 flex h-screen items-center overflow-hidden border-b border-white/[0.06]">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,153,255,0.13),transparent_36%),linear-gradient(180deg,#080a0b_0%,#0b0d0e_100%)]" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[72vw] max-h-[980px] w-[72vw] max-w-[980px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.035]" />
+
+          <div className="absolute left-4 right-4 top-8 z-40 mx-auto flex max-w-[1280px] items-start justify-between gap-6 sm:left-6 sm:right-6 sm:top-12">
+            <div>
+              <span className="mb-2 block text-[10px] font-bold uppercase tracking-[0.28em] text-vibrant-blue sm:text-xs">Short-form Work</span>
+              <h2 className="font-display text-3xl font-extrabold text-white sm:text-4xl lg:text-5xl">Break the stack.</h2>
+            </div>
+            <p className="hidden max-w-sm pt-2 text-right text-sm leading-relaxed text-on-surface-variant md:block">Scroll to fan the Shorts deck apart. Each vertical frame stays alive while the stack reshapes around it.</p>
+          </div>
+
+          <div data-shorts-stage className="stw-shorts-stage relative mx-auto h-[72vh] w-full max-w-[1280px]">
+            {shortVideos.map((video, index) => (
+              <article key={video.id} data-short-card data-short-index={index} className="stw-short-card">
+                <div className="stw-short-device">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${video.youtubeId}&controls=0&modestbranding=1&rel=0&playsinline=1`}
+                    title={`${video.label} — STW Media short-form work`}
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full pointer-events-none"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 p-5 sm:p-6">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-vibrant-blue sm:text-xs">Short {String(index + 1).padStart(2, '0')}</span>
+                    <h3 className="mt-1 font-display text-lg font-extrabold text-white sm:text-xl">{video.label}</h3>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="absolute bottom-7 left-1/2 z-40 w-[min(560px,82vw)] -translate-x-1/2 sm:bottom-10">
+            <div className="mb-3 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-white/45"><span>Scroll to break the stack</span><span data-shorts-count>01 / 03</span></div>
+            <div className="h-[2px] overflow-hidden rounded-full bg-white/10"><div data-shorts-progress className="stw-shorts-progress-fill h-full bg-vibrant-blue" /></div>
+          </div>
         </div>
       </section>
 
