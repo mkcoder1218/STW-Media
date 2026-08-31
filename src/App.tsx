@@ -48,6 +48,11 @@ export default function App() {
   const timeoutRef = React.useRef<number | null>(null);
   const hoverClearRef = React.useRef<number | null>(null);
   const modalPlayerRef = React.useRef<HTMLIFrameElement | null>(null);
+  const hoveredWorkRef = React.useRef<WorkHover | null>(null);
+
+  useEffect(() => {
+    hoveredWorkRef.current = hoveredWork;
+  }, [hoveredWork]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -143,19 +148,12 @@ export default function App() {
     window.addEventListener('scroll', requestCinemaSync, { passive: true });
     window.addEventListener('resize', requestCinemaSync);
 
-    const root = document.getElementById('root');
-    const domObserver = new MutationObserver(requestCinemaSync);
-    if (root) {
-      domObserver.observe(root, { childList: true, subtree: true });
-    }
-
     return () => {
       if (frameId !== null) {
         window.cancelAnimationFrame(frameId);
       }
       window.removeEventListener('scroll', requestCinemaSync);
       window.removeEventListener('resize', requestCinemaSync);
-      domObserver.disconnect();
       setIsWorkCinema(false);
     };
   }, [screen]);
@@ -169,6 +167,8 @@ export default function App() {
     const workSection = document.getElementById('work-section');
     if (!workSection) return;
 
+    let rectFrameId: number | null = null;
+
     const clearHoverTimer = () => {
       if (hoverClearRef.current) {
         window.clearTimeout(hoverClearRef.current);
@@ -181,17 +181,20 @@ export default function App() {
       if (!data) return;
 
       clearHoverTimer();
-      setHoveredWork({
+      const nextHover = {
         article,
         rect: article.getBoundingClientRect(),
         ...data,
-      });
+      };
+      hoveredWorkRef.current = nextHover;
+      setHoveredWork(nextHover);
     };
 
     const onMouseOver = (event: MouseEvent) => {
       const target = event.target as Element | null;
       const article = target?.closest('article') as HTMLElement | null;
       if (!article || !workSection.contains(article)) return;
+      if (hoveredWorkRef.current?.article === article) return;
       updateArticle(article);
     };
 
@@ -205,27 +208,47 @@ export default function App() {
 
       clearHoverTimer();
       hoverClearRef.current = window.setTimeout(() => {
+        hoveredWorkRef.current = null;
         setHoveredWork(null);
       }, 180);
     };
 
-    const updateRect = () => {
-      setHoveredWork((current) => {
-        if (!current?.article.isConnected) return null;
-        return { ...current, rect: current.article.getBoundingClientRect() };
-      });
+    const syncHoveredRect = () => {
+      rectFrameId = null;
+      const current = hoveredWorkRef.current;
+      if (!current?.article.isConnected) return;
+
+      const nextRect = current.article.getBoundingClientRect();
+      const previousRect = current.rect;
+      const unchanged =
+        Math.abs(nextRect.left - previousRect.left) < 0.5 &&
+        Math.abs(nextRect.top - previousRect.top) < 0.5 &&
+        Math.abs(nextRect.width - previousRect.width) < 0.5 &&
+        Math.abs(nextRect.height - previousRect.height) < 0.5;
+
+      if (unchanged) return;
+
+      const nextHover = { ...current, rect: nextRect };
+      hoveredWorkRef.current = nextHover;
+      setHoveredWork(nextHover);
+    };
+
+    const requestHoveredRectSync = () => {
+      if (!hoveredWorkRef.current || rectFrameId !== null) return;
+      rectFrameId = window.requestAnimationFrame(syncHoveredRect);
     };
 
     workSection.addEventListener('mouseover', onMouseOver);
     workSection.addEventListener('mouseout', onMouseOut);
-    window.addEventListener('scroll', updateRect, { passive: true });
-    window.addEventListener('resize', updateRect);
+    window.addEventListener('scroll', requestHoveredRectSync, { passive: true });
+    window.addEventListener('resize', requestHoveredRectSync);
 
     return () => {
       workSection.removeEventListener('mouseover', onMouseOver);
       workSection.removeEventListener('mouseout', onMouseOut);
-      window.removeEventListener('scroll', updateRect);
-      window.removeEventListener('resize', updateRect);
+      window.removeEventListener('scroll', requestHoveredRectSync);
+      window.removeEventListener('resize', requestHoveredRectSync);
+      if (rectFrameId !== null) window.cancelAnimationFrame(rectFrameId);
       clearHoverTimer();
     };
   }, [screen]);
@@ -276,6 +299,7 @@ export default function App() {
   const openWorkModal = (work: WorkHover) => {
     setSelectedWork({ youtubeId: work.youtubeId, label: work.label });
     setModalMuted(true);
+    hoveredWorkRef.current = null;
     setHoveredWork(null);
   };
 
@@ -306,7 +330,10 @@ export default function App() {
 
   const scheduleHoverClose = () => {
     if (hoverClearRef.current) window.clearTimeout(hoverClearRef.current);
-    hoverClearRef.current = window.setTimeout(() => setHoveredWork(null), 180);
+    hoverClearRef.current = window.setTimeout(() => {
+      hoveredWorkRef.current = null;
+      setHoveredWork(null);
+    }, 180);
   };
 
   return (
