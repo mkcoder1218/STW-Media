@@ -32,10 +32,12 @@ const GIRLS_NEEDS_IMAGE = `data:image/jpeg;base64,${[
   p08,
 ].join('')}`;
 
+const REPLACEMENT_TITLE = 'Hard Skills vs Soft Skills';
+
 function syncGirlsNeedsCard() {
   const card = document.querySelector('#thumbnail-work-section .tw-card--girls');
   const cardImage = card?.querySelector('img');
-  if (!cardImage) return false;
+  if (!card || !cardImage) return false;
 
   if (cardImage.dataset.src !== GIRLS_NEEDS_IMAGE) {
     cardImage.dataset.src = GIRLS_NEEDS_IMAGE;
@@ -44,16 +46,34 @@ function syncGirlsNeedsCard() {
     cardImage.src = GIRLS_NEEDS_IMAGE;
   }
 
+  const title = card.querySelector('.tw-name');
+  if (title && title.textContent !== REPLACEMENT_TITLE) {
+    title.textContent = REPLACEMENT_TITLE;
+  }
+
+  card.setAttribute(
+    'aria-label',
+    `${REPLACEMENT_TITLE}, Lifestyle / Comparison. Open thumbnail.`
+  );
+
   return true;
 }
 
 function syncGirlsNeedsLightbox() {
   const lightbox = document.querySelector('.tw-lightbox');
-  const title = lightbox?.querySelector('.tw-lightbox__title')?.textContent?.trim();
+  const title = lightbox?.querySelector('.tw-lightbox__title');
   const image = lightbox?.querySelector('.tw-lightbox__image');
 
-  if (image && title === 'Girls Needs' && image.src !== GIRLS_NEEDS_IMAGE) {
+  if (!lightbox || !title || !image) return;
+
+  const currentTitle = title.textContent?.trim();
+  if (currentTitle !== 'Girls Needs' && currentTitle !== REPLACEMENT_TITLE) return;
+
+  if (image.src !== GIRLS_NEEDS_IMAGE) {
     image.src = GIRLS_NEEDS_IMAGE;
+  }
+  if (title.textContent !== REPLACEMENT_TITLE) {
+    title.textContent = REPLACEMENT_TITLE;
   }
 }
 
